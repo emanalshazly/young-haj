@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Award, Star, CheckCircle2, Download } from 'lucide-react';
+import Confetti from 'react-confetti';
 import { journeyData } from '../data';
 
 interface Props {
@@ -13,6 +14,14 @@ interface Props {
 export function EndScreen({ onRestart, stars, totalStars }: Props) {
   const [childName, setChildName] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const downloadCertificate = () => {
     const canvas = canvasRef.current;
@@ -78,8 +87,9 @@ export function EndScreen({ onRestart, stars, totalStars }: Props) {
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="max-w-4xl w-full mx-auto p-4 flex flex-col items-center min-h-[80vh] justify-center"
+      className="max-w-4xl w-full mx-auto p-4 flex flex-col items-center min-h-[80vh] justify-center relative"
     >
+      {windowSize.width > 0 && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} gravity={0.15} style={{ position: 'fixed', top: 0, left: 0, zIndex: 100, pointerEvents: 'none' }} />}
       <div className="bg-white rounded-[40px] shadow-2xl p-8 md:p-12 w-full border-8 border-[#A1887F] text-center relative overflow-hidden">
         {/* Background rays effect */}
         <div className="absolute inset-0 z-0 bg-[#FFF8E1] pointer-events-none opacity-40"></div>

@@ -1,4 +1,4 @@
-export type StepType = "quiz" | "memory" | "maze";
+export type StepType = "quiz" | "memory" | "maze" | "ordering";
 
 export interface Option {
   id: string;

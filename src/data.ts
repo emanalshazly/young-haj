@@ -1,5 +1,16 @@
 import { JourneyStep } from "./types";
 
+export const dictionaryData = [
+  { id: "ihram", term: "الإحرام", description: "ملابس بيضاء بسيطة نلبسها قبل بدء الحج، لنتذكر أننا جميعاً سواسية.", iconName: "Shirt", color: "text-sky-500" },
+  { id: "tawaf", term: "الطواف", description: "الدوران حول الكعبة المشرفة سبعة أشواط، مع الذكر والدعاء.", iconName: "RotateCw", color: "text-amber-500" },
+  { id: "sai", term: "السعي", description: "المشي والجري بين جبلي الصفا والمروة سبع مرات، كما فعلت السيدة هاجر.", iconName: "Footprints", color: "text-emerald-500" },
+  { id: "arafat", term: "الوقوف بعرفة", description: "أهم ركن في الحج، نقف فيه لندعو الله ونطلب منه المغفرة.", iconName: "Users", color: "text-purple-500" },
+  { id: "jamarat", term: "رمي الجمرات", description: "رمي الحصيات في منى، لنتعلم مقاومة الشيطان والأعمال السيئة.", iconName: "Target", color: "text-rose-500" },
+  { id: "talbiyah", term: "التلبية", description: "دعاء نقول فيه 'لبيك اللهم لبيك' للرد على نداء الله بحب وطاعة.", iconName: "Mic2", color: "text-blue-500" },
+  { id: "miqat", term: "الميقات", description: "المكان المحدد الذي يبدأ منه الحجاج إحرامهم ونيتهم للحج.", iconName: "MapPin", color: "text-indigo-500" },
+  { id: "hady", term: "الهدي", description: "ما يذبح من الأنعام في الحج تقرباً إلى الله وشكراً له.", iconName: "Gift", color: "text-red-500" }
+];
+
 export const journeyData: JourneyStep[] = [
   {
     id: "ihram",
@@ -102,5 +113,14 @@ export const journeyData: JourneyStep[] = [
       { id: "o2", text: "أنا متأخر عن الموعد وسأحضر غداً", isCorrect: false },
     ],
     successMessage: "رائع جداً! بهذا الدعاء الدائم نحن نعبر عن حبنا وطاعتنا الكاملة لله وحده لا شريك له."
+  },
+  {
+    id: "ordering",
+    title: "9. الترفيه: ترتيب المناسك",
+    description: "رتب مناسك الحج بالترتيب الصحيح لتتأكد من أنك تعلمتها جيداً واضغط عليها.",
+    valueLearned: "النظام والترتيب في العبادة.",
+    iconName: "ListOrdered",
+    type: "ordering",
+    successMessage: "أنت بطل حقيقي! لقد رتبت المناسك بشكل صحيح تماماً."
   }
 ];
