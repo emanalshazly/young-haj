@@ -1,0 +1,6 @@
+{
+  "name": "رحلة الحاج الصغير",
+  "description": "لعبة تفاعلية للأطفال لتعلم مناسك الحج ومعانيها العميقة بطريقة ممتعة ومبسطة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
