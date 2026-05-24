@@ -1,3 +1,5 @@
+export type StepType = "quiz" | "memory" | "maze";
+
 export interface Option {
   id: string;
   text: string;
@@ -10,8 +12,9 @@ export interface JourneyStep {
   description: string;
   valueLearned: string;
   iconName: string;
-  question: string;
-  options: Option[];
+  type?: StepType;
+  question?: string;
+  options?: Option[];
   successMessage: string;
 }
 
