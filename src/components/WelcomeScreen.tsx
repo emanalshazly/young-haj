@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, HelpCircle, X, Volume2, BookOpen } from 'lucide-react';
-import * as Icons from 'lucide-react';
+import { BookOpen, Footprints, Gift, HelpCircle, MapPin, Mic2, Play, RotateCw, Shirt, Target, Users, Volume2, X } from 'lucide-react';
 import { speak, stopSpeech } from '../utils/speech';
 import { dictionaryData } from '../data';
 
@@ -192,7 +191,8 @@ export function WelcomeScreen({ onStart }: Props) {
 
               <div className="overflow-y-auto pr-2 grid grid-cols-1 md:grid-cols-2 gap-4 pb-2">
                 {dictionaryData.map((item, index) => {
-                  const Icon = (Icons as any)[item.iconName] || Icons.HelpCircle;
+                  const iconMap = { Shirt, RotateCw, Footprints, Users, Target, Mic2, MapPin, Gift };
+                  const Icon = iconMap[item.iconName as keyof typeof iconMap] || HelpCircle;
                   return (
                     <motion.div 
                       key={item.id}

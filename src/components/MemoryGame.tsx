@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Shirt, RotateCw, Footprints, Users, Target, Mic2 } from 'lucide-react';
 import { audio } from '../utils/audio';
+import { shuffleWith } from '../domain/shuffle';
 
 const CARDS = [
   { id: 'shirt', icon: Shirt, color: 'text-sky-500' },
@@ -12,7 +13,7 @@ const CARDS = [
   { id: 'mic', icon: Mic2, color: 'text-blue-500' }
 ];
 
-export function MemoryGame({ onComplete }: { onComplete: (stars: number) => void }) {
+export function MemoryGame({ onComplete, random = Math.random }: { onComplete: (stars: number) => void; random?: () => number }) {
   const [cards, setCards] = useState<any[]>([]);
   const [flipped, setFlipped] = useState<number[]>([]);
   const [solved, setSolved] = useState<number[]>([]);
@@ -20,11 +21,10 @@ export function MemoryGame({ onComplete }: { onComplete: (stars: number) => void
   const [latestMatch, setLatestMatch] = useState<number[]>([]);
 
   useEffect(() => {
-    const shuffled = [...CARDS, ...CARDS]
-      .sort(() => Math.random() - 0.5)
+    const shuffled = shuffleWith([...CARDS, ...CARDS], random)
       .map((c, i) => ({ ...c, uid: i }));
     setCards(shuffled);
-  }, []);
+  }, [random]);
 
   useEffect(() => {
     if (flipped.length === 2) {
@@ -62,6 +62,8 @@ export function MemoryGame({ onComplete }: { onComplete: (stars: number) => void
           return (
             <motion.button 
               key={c.uid}
+              type="button"
+              aria-label={isFlipped ? `بطاقة مكشوفة ${c.id}` : `اكشف البطاقة ${i + 1}`}
               onClick={() => {
                 if (flipped.length < 2 && !isFlipped) {
                   audio.playPop();

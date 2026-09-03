@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { JourneyStep, Option } from '../types';
-import * as Icons from 'lucide-react';
+import {
+  ArrowLeft, Check, Circle, Footprints, HelpCircle, ListOrdered, Map,
+  Mic2, Puzzle, RotateCcw, RotateCw, Shirt, Star, Target, Timer, Trophy,
+  Users, Volume2, X,
+} from 'lucide-react';
 import { MemoryGame } from './MemoryGame';
 import { MazeGame } from './MazeGame';
 import { OrderingGame } from './OrderingGame';
@@ -63,7 +67,8 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
     speak(textToSpeak);
   };
 
-  const IconComponent = (Icons as any)[step.iconName] || Icons.HelpCircle;
+  const iconMap = { Shirt, RotateCw, Footprints, Puzzle, Users, Target, Map, Mic2, ListOrdered };
+  const IconComponent = iconMap[step.iconName as keyof typeof iconMap] || HelpCircle;
 
   const handleOptionClick = (option: Option) => {
     if (selectedOption) return; // Prevent multiple clicks
@@ -110,7 +115,7 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
               const isPast = i < stepNumber - 1;
               const isCurrent = i === stepNumber - 1;
               const isActive = isPast || isCurrent;
-              const Icon = (Icons as any)[jStep.iconName] || Icons.Circle;
+              const Icon = iconMap[jStep.iconName as keyof typeof iconMap] || Circle;
 
               return (
                 <div key={i} className="relative z-10 flex flex-col items-center justify-center">
@@ -166,7 +171,7 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
                      transition={{ duration: 0.4, type: "spring" }}
                      className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full border-4 flex items-center justify-center font-bold shadow-md transition-colors ${isCurrent ? 'ring-4 ring-emerald-200 z-20' : 'z-10'}`}
                   >
-                    {isPast ? <Icons.Check size={18} strokeWidth={4} /> : <Icon size={18} strokeWidth={3} className={isCurrent ? "animate-pulse" : ""} />}
+                    {isPast ? <Check size={18} strokeWidth={4} /> : <Icon size={18} strokeWidth={3} className={isCurrent ? "animate-pulse" : ""} />}
                   </motion.div>
                 </div>
               );
@@ -184,7 +189,7 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
             timeLeft <= 10 ? 'bg-[#FFEBEE] border-[#EF5350] text-[#C62828]' : 'bg-white border-[#4FC3F7] text-[#0288D1]'
           }`}
         >
-          <Icons.Timer size={24} className={timeLeft <= 10 ? 'text-[#EF5350] animate-pulse' : 'text-[#0288D1]'} />
+          <Timer size={24} className={timeLeft <= 10 ? 'text-[#EF5350] animate-pulse' : 'text-[#0288D1]'} />
           <span dir="ltr">00:{String(timeLeft).padStart(2, '0')}</span>
         </motion.div>
       </div>
@@ -196,11 +201,13 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
         <div className="absolute -bottom-10 -left-10 w-56 h-56 bg-amber-50 rounded-full mix-blend-multiply opacity-50 pointer-events-none"></div>
         
         <button 
+          type="button"
           onClick={replayAudio}
           className="absolute top-6 left-6 text-[#A1887F] hover:text-[#5D4037] hover:bg-slate-100 transition-colors p-3 bg-white rounded-full border-4 border-slate-200 z-20"
           title="استمع"
+          aria-label="استمع إلى تعليمات المحطة"
         >
-          <Icons.Volume2 size={32} strokeWidth={3} />
+          <Volume2 size={32} strokeWidth={3} />
         </button>
         
         <span className="text-[120px] leading-none font-black text-[#FFB300] opacity-20 block absolute top-4 right-10 pointer-events-none">
@@ -259,8 +266,8 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
                     (option.id === selectedOption && option.isCorrect) || (option.isCorrect && selectedOption !== null) ? 'border-[#4CAF50] bg-[#4CAF50] text-white' :
                     option.id === selectedOption && !option.isCorrect ? 'border-[#EF5350] bg-[#EF5350] text-white' : 'border-slate-200 bg-transparent'
                   }`}>
-                    {((option.id === selectedOption && option.isCorrect) || (option.isCorrect && selectedOption !== null)) && <Icons.Check size={20} strokeWidth={4} />}
-                    {option.id === selectedOption && !option.isCorrect && <Icons.X size={20} strokeWidth={4} />}
+                    {((option.id === selectedOption && option.isCorrect) || (option.isCorrect && selectedOption !== null)) && <Check size={20} strokeWidth={4} />}
+                    {option.id === selectedOption && !option.isCorrect && <X size={20} strokeWidth={4} />}
                   </div>
                 </button>
               ))}
@@ -275,9 +282,9 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
               animate={{ opacity: 1, height: 'auto', y: 0 }}
               className="w-full relative z-10"
             >
-              <div className={`p-8 rounded-3xl mt-6 border-8 shadow-lg ${isCorrect ? 'bg-[#E8F5E9] border-[#4CAF50] text-[#2E7D32]' : 'bg-[#FFEBEE] border-[#EF5350] text-[#C62828]'}`}>
+              <div role="status" aria-live="polite" className={`p-8 rounded-3xl mt-6 border-8 shadow-lg ${isCorrect ? 'bg-[#E8F5E9] border-[#4CAF50] text-[#2E7D32]' : 'bg-[#FFEBEE] border-[#EF5350] text-[#C62828]'}`}>
                 <div className="flex items-center justify-center gap-4 mb-4">
-                  {isCorrect ? <Icons.Trophy size={48} className="text-[#4CAF50]" /> : <Icons.RotateCcw size={48} className="text-[#EF5350]" />}
+                  {isCorrect ? <Trophy size={48} className="text-[#4CAF50]" /> : <RotateCcw size={48} className="text-[#EF5350]" />}
                   <p className="text-4xl font-black">
                     {isCorrect ? 'رائع جداً يا بطل! 🎉' : (timeLeft === 0 ? 'انتهى الوقت! ⏰' : 'حاول مرة أخرى! 🤔')}
                   </p>
@@ -290,7 +297,7 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
                     className="flex justify-center gap-3 mb-6"
                   >
                     {[...Array(3)].map((_, i) => (
-                      <Icons.Star 
+                      <Star
                         key={i} 
                         size={48} 
                         className={i < starsEarned ? "text-[#FFB300] fill-current drop-shadow-md" : "text-gray-300"} 
@@ -316,7 +323,7 @@ export function QuizStep({ step, stepNumber, totalSteps, onNext }: Props) {
                 >
                   <span className="flex items-center justify-center gap-2">
                     {isCorrect ? 'إلى المحطة التالية' : 'أنا مستعد، سأحاول مجدداً'}
-                    {isCorrect && <Icons.ArrowLeft size={28} strokeWidth={3} />}
+                    {isCorrect && <ArrowLeft size={28} strokeWidth={3} />}
                   </span>
                 </button>
               </div>

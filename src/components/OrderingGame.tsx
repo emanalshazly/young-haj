@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import * as Icons from 'lucide-react';
+import { Circle, Footprints, RotateCw, Shirt, Target, Users } from 'lucide-react';
 import { audio } from '../utils/audio';
+import { shuffleWith } from '../domain/shuffle';
 
 const CORRECT_ORDER = [
   { id: '1', text: 'الإحرام', icon: 'Shirt' },
@@ -11,7 +12,7 @@ const CORRECT_ORDER = [
   { id: '5', text: 'رمي الجمرات', icon: 'Target' },
 ];
 
-export function OrderingGame({ onComplete }: { onComplete: (stars: number) => void }) {
+export function OrderingGame({ onComplete, random = Math.random }: { onComplete: (stars: number) => void; random?: () => number }) {
   const [available, setAvailable] = useState<any[]>([]);
   const [selected, setSelected] = useState<any[]>([]);
   const [moves, setMoves] = useState(0);
@@ -20,9 +21,9 @@ export function OrderingGame({ onComplete }: { onComplete: (stars: number) => vo
 
   useEffect(() => {
     // Shuffle available on mount
-    const shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
+    const shuffled = shuffleWith(CORRECT_ORDER, random);
     setAvailable(shuffled);
-  }, []);
+  }, [random]);
 
   const handleSelect = (item: any) => {
     if (isCorrect) return; // already done
@@ -60,7 +61,7 @@ export function OrderingGame({ onComplete }: { onComplete: (stars: number) => vo
         setIsWrong(false);
         // Reset after wrong
         setSelected([]);
-        const shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
+        const shuffled = shuffleWith(CORRECT_ORDER, random);
         setAvailable(shuffled);
       }, 1500);
     }
@@ -90,15 +91,18 @@ export function OrderingGame({ onComplete }: { onComplete: (stars: number) => vo
               </motion.span>
             )}
             {selected.map((item, index) => {
-              const Icon = (Icons as any)[item.icon] || Icons.Circle;
+              const iconMap = { Shirt, RotateCw, Footprints, Users, Target };
+              const Icon = iconMap[item.icon as keyof typeof iconMap] || Circle;
               return (
-                <motion.div
+                <motion.button
+                  type="button"
                   layout
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   key={item.id}
                   onClick={() => handleDeselect(item)}
+                  aria-label={`إزالة ${item.text} من الترتيب`}
                   className="bg-[#FFD54F] border-4 border-[#FBC02D] text-[#5D4037] px-4 py-3 rounded-2xl font-bold flex items-center gap-3 cursor-pointer shadow-sm hover:-translate-y-1 transition-transform"
                 >
                   <span className="bg-white text-[#F57F17] w-6 h-6 rounded-full flex items-center justify-center font-black">
@@ -106,7 +110,7 @@ export function OrderingGame({ onComplete }: { onComplete: (stars: number) => vo
                   </span>
                   {item.text}
                   <Icon size={20} className="opacity-80" />
-                </motion.div>
+                </motion.button>
               );
             })}
           </AnimatePresence>
@@ -116,20 +120,23 @@ export function OrderingGame({ onComplete }: { onComplete: (stars: number) => vo
         <div className="flex flex-wrap gap-4 justify-center min-h-[60px]">
           <AnimatePresence>
             {available.map((item) => {
-              const Icon = (Icons as any)[item.icon] || Icons.Circle;
+              const iconMap = { Shirt, RotateCw, Footprints, Users, Target };
+              const Icon = iconMap[item.icon as keyof typeof iconMap] || Circle;
               return (
-                <motion.div
+                <motion.button
+                  type="button"
                   layout
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   key={item.id}
                   onClick={() => handleSelect(item)}
+                  aria-label={`إضافة ${item.text} إلى الترتيب`}
                   className="bg-white border-4 border-slate-200 text-[#5D4037] px-6 py-4 rounded-2xl font-bold flex items-center gap-3 cursor-pointer hover:border-[#4FC3F7] hover:bg-sky-50 shadow-md hover:-translate-y-1 transition-all"
                 >
                   {item.text}
                   <Icon size={24} className="text-[#0288D1]" />
-                </motion.div>
+                </motion.button>
               );
             })}
           </AnimatePresence>

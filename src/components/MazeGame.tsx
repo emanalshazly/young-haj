@@ -65,11 +65,11 @@ export function MazeGame({ onComplete }: { onComplete: (stars: number) => void }
       
       <div className="grid grid-cols-3 gap-3 mt-8 w-60" dir="ltr">
         <div />
-        <button onClick={() => move(0, -1)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowUp size={36} strokeWidth={3} /></button>
+        <button type="button" aria-label="تحرك لأعلى" onClick={() => move(0, -1)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowUp size={36} strokeWidth={3} /></button>
         <div />
-        <button onClick={() => move(-1, 0)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowLeft size={36} strokeWidth={3} /></button>
-        <button onClick={() => move(0, 1)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowDown size={36} strokeWidth={3} /></button>
-        <button onClick={() => move(1, 0)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowRight size={36} strokeWidth={3} /></button>
+        <button type="button" aria-label="تحرك لليسار" onClick={() => move(-1, 0)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowLeft size={36} strokeWidth={3} /></button>
+        <button type="button" aria-label="تحرك لأسفل" onClick={() => move(0, 1)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowDown size={36} strokeWidth={3} /></button>
+        <button type="button" aria-label="تحرك لليمين" onClick={() => move(1, 0)} className="flex items-center justify-center p-4 bg-[#4FC3F7] rounded-xl text-white shadow-[0_4px_0_0_#0288D1] active:translate-y-1 active:shadow-none hover:bg-[#29B6F6]"><ArrowRight size={36} strokeWidth={3} /></button>
       </div>
     </div>
   );
