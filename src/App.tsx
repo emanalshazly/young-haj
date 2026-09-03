@@ -2,32 +2,24 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { AnimatePresence } from 'motion/react';
-import { GameState } from './types';
 import { journeyData } from './data';
+import { initialProgress, reduceProgress } from './domain/progression';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { QuizStep } from './components/QuizStep';
 import { EndScreen } from './components/EndScreen';
 
 export default function App() {
-  const [gameState, setGameState] = useState<GameState>('welcome');
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [stars, setStars] = useState(0);
+  const [progress, dispatch] = useReducer(reduceProgress, journeyData.length, initialProgress);
 
   const startGame = () => {
-    setGameState('playing');
-    setCurrentStepIndex(0);
-    setStars(0);
+    dispatch({ type: 'start' });
   };
 
   const nextStep = (starsEarned: number) => {
-    setStars(prev => prev + starsEarned);
-    if (currentStepIndex < journeyData.length - 1) {
-      setCurrentStepIndex(prev => prev + 1);
-    } else {
-      setGameState('completed');
-    }
+    dispatch({ type: 'answer', itemId: journeyData[progress.stepIndex].id, stars: starsEarned });
+    dispatch({ type: 'next' });
   };
 
   return (
@@ -45,23 +37,23 @@ export default function App() {
 
       <main className="relative z-10 flex-1 flex items-center justify-center p-8 w-full overflow-y-auto">
         <AnimatePresence mode="wait">
-          {gameState === 'welcome' && (
+          {progress.status === 'welcome' && (
             <WelcomeScreen key="welcome" onStart={startGame} />
           )}
-          {gameState === 'playing' && (
+          {progress.status === 'playing' && (
             <QuizStep 
-              key={`step-${currentStepIndex}`}
-              step={journeyData[currentStepIndex]} 
-              stepNumber={currentStepIndex + 1}
+              key={`step-${progress.stepIndex}`}
+              step={journeyData[progress.stepIndex]}
+              stepNumber={progress.stepIndex + 1}
               totalSteps={journeyData.length}
               onNext={nextStep} 
             />
           )}
-          {gameState === 'completed' && (
+          {progress.status === 'completed' && (
             <EndScreen 
               key="end" 
               onRestart={startGame} 
-              stars={stars} 
+              stars={progress.stars}
               totalStars={journeyData.length * 3} 
             />
           )}

@@ -11,7 +11,7 @@ export const dictionaryData = [
   { id: "hady", term: "الهدي", description: "ما يذبح من الأنعام في الحج تقرباً إلى الله وشكراً له.", iconName: "Gift", color: "text-red-500" }
 ];
 
-export const journeyData: JourneyStep[] = [
+const baseJourneyData: Array<Omit<JourneyStep, "locale" | "review">> = [
   {
     id: "ihram",
     title: "1. الإحرام (الميقات)",
@@ -124,3 +124,9 @@ export const journeyData: JourneyStep[] = [
     successMessage: "أنت بطل حقيقي! لقد رتبت المناسك بشكل صحيح تماماً."
   }
 ];
+
+export const journeyData: JourneyStep[] = baseJourneyData.map((step) => ({
+  ...step,
+  locale: "ar",
+  review: { status: "pending" },
+}));

@@ -16,6 +16,11 @@ export interface JourneyStep {
   question?: string;
   options?: Option[];
   successMessage: string;
+  locale: "ar" | "en";
+  review: {
+    status: "pending" | "reviewed";
+    receiptId?: string;
+  };
 }
 
 export type GameState = "welcome" | "playing" | "completed";

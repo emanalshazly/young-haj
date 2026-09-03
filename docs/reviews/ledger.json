@@ -1,0 +1,14 @@
+{
+  "contentVersion": "hajj-v1",
+  "items": [
+    { "id": "ihram", "status": "pending" },
+    { "id": "tawaf", "status": "pending" },
+    { "id": "safa-marwa", "status": "pending" },
+    { "id": "memory", "status": "pending" },
+    { "id": "arafat", "status": "pending" },
+    { "id": "jamarat", "status": "pending" },
+    { "id": "maze", "status": "pending" },
+    { "id": "talbiyah", "status": "pending" },
+    { "id": "ordering", "status": "pending" }
+  ]
+}
