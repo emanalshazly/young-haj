@@ -1,5 +1,7 @@
 # Young Haj
 
+[GitHub Pages](https://emanalshazly.github.io/young-haj/) publishes the tested static application from the main branch.
+
 Young Haj is an Arabic, child-focused static learning game that introduces a Hajj journey through quizzes and small memory, maze, and ordering activities.
 
 ## Evidence boundary
